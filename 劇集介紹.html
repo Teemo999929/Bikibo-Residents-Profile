@@ -78,10 +78,40 @@
             margin-top: 20px;
         }
 
-        /* ======= 響應式 RWD  ======= */
+      /* ======= 響應式 RWD  ======= */
+        /* --- 漢堡選單樣式開始 --- */
+        .burger {
+            display: none;
+            font-size: 24px;
+            color: white;
+            cursor: pointer;
+            text-align: right;
+            padding-right: 20px;
+        }
+
         @media (max-width: 768px) {
             header { height: 300px; }
+            .burger {
+                display: block;
+            }
+
+            #navLinks {
+                display: none;
+                flex-direction: column;
+                background: #11b2e8;
+                padding: 10px 0;
+            }
+
+            #navLinks.active {
+                display: flex;
+            }
+
+            nav a {
+                margin: 10px 0;
+                display: block;
+            }
         }
+        /* --- 漢堡選單樣式結束 --- */
     </style>
 </head>
 
@@ -92,11 +122,14 @@
     </header>
 
     <nav>
-        <a href="index.html">首頁</a>
-        <a href="角色介紹.html">角色介紹</a>
-        <a href="劇集介紹.html">劇集介紹</a>
-        <a href="精彩片段.html">精彩片段</a>
-        <a href="相關梗圖.html">相關梗圖</a>
+        <div class="burger" onclick="toggleMenu()">☰</div>
+        <div id="navLinks">
+            <a href="index.html">首頁</a>
+            <a href="角色介紹.html">角色介紹</a>
+            <a href="劇集介紹.html">劇集介紹</a>
+            <a href="精彩片段.html">精彩片段</a>
+            <a href="相關梗圖.html">相關梗圖</a>
+        </div>
     </nav>
 
     <main>
@@ -108,6 +141,17 @@
     <footer>
         <p>© 2025 SpongeBob Fan Site</p>
     </footer>
+
+    <script>
+        function toggleMenu() {
+            var x = document.getElementById("navLinks");
+            if (x.classList.contains("active")) {
+                x.classList.remove("active");
+            } else {
+                x.classList.add("active");
+            }
+        }
+    </script>
 
 </body>
 
