@@ -30,7 +30,8 @@
             background: #11b2e8;
             padding: 10px;
             text-align: center;
-            z-index: 100; /* 調高 z-index 確保選單在最上層 */
+            z-index: 100;
+            /* 調高 z-index 確保選單在最上層 */
         }
 
         nav a {
@@ -54,14 +55,31 @@
             padding-right: 20px;
         }
 
-        h2.word, h3.word2, h3.word3, h3.word4 {
+        h2.word,
+        h3.word2,
+        h3.word3,
+        h3.word4 {
             color: #4e4e4e;
             text-align: center;
             margin: 30px 0 20px 0;
+
+            font-size: clamp(1.1rem, 4vw, 2.2rem);
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            padding: 0 15px;
+            line-height: 1.4;
+        }
+
+        h3.word2,
+        h3.word3,
+        h3.word4 {
+            font-size: clamp(1.2rem, 3.5vw, 1.8rem);
+            /* 手機最小 19px, 電腦最大 28px */
         }
 
         /* ======= 第一、三段：圖片左 + 文字右 ======= */
-        .section1, .section3 {
+        .section1,
+        .section3 {
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
@@ -73,7 +91,8 @@
             box-sizing: border-box;
         }
 
-        .fit, .fit3 {
+        .fit,
+        .fit3 {
             flex: 1 1 350px;
             max-width: 400px;
             height: auto;
@@ -81,7 +100,8 @@
             border-radius: 8px;
         }
 
-        .box, .box3 {
+        .box,
+        .box3 {
             flex: 1 1 500px;
             background-color: #ffffffb5;
             border: 2px solid #11b3e8;
@@ -92,7 +112,8 @@
         }
 
         /* ======= 第二、四段：圖片右 + 文字左 ======= */
-        .section2, .section4 {
+        .section2,
+        .section4 {
             display: flex;
             flex-wrap: wrap-reverse;
             justify-content: center;
@@ -104,7 +125,8 @@
             box-sizing: border-box;
         }
 
-        .fit2, .fit4 {
+        .fit2,
+        .fit4 {
             flex: 1 1 200px;
             max-width: 200px;
             height: auto;
@@ -112,7 +134,8 @@
             border-radius: 8px;
         }
 
-        .box2, .box4 {
+        .box2,
+        .box4 {
             flex: 1 1 600px;
             background-color: #ffffffb5;
             border: 2px solid #11b3e8;
@@ -136,9 +159,12 @@
             object-fit: cover;
         }
 
-        .mySlides { display: none; }
+        .mySlides {
+            display: none;
+        }
 
-        .prev, .next {
+        .prev,
+        .next {
             cursor: pointer;
             position: absolute;
             top: 50%;
@@ -153,12 +179,20 @@
             user-select: none;
         }
 
-        .next { right: 0; border-radius: 3px 0 0 3px; }
-        .prev:hover, .next:hover { background-color: rgba(0, 0, 0, 0.8); }
+        .next {
+            right: 0;
+            border-radius: 3px 0 0 3px;
+        }
+
+        .prev:hover,
+        .next:hover {
+            background-color: rgba(0, 0, 0, 0.8);
+        }
 
         .dot {
             cursor: pointer;
-            height: 15px; width: 15px;
+            height: 15px;
+            width: 15px;
             margin: 0 2px;
             background-color: #bbb;
             border-radius: 50%;
@@ -166,7 +200,10 @@
             transition: background-color 0.6s ease;
         }
 
-        .active, .dot:hover { background-color: #717171; }
+        .active,
+        .dot:hover {
+            background-color: #717171;
+        }
 
         .fade {
             animation-name: fade;
@@ -174,14 +211,20 @@
         }
 
         @keyframes fade {
-            from { opacity: .4 }
-            to { opacity: 1 }
+            from {
+                opacity: .4
+            }
+
+            to {
+                opacity: 1
+            }
         }
 
         #topBtn {
             position: fixed;
             bottom: 80px;
-            right: 20px; /* 手機上縮短邊距 */
+            right: 20px;
+            /* 手機上縮短邊距 */
             padding: 5px 10px;
             background-color: #afc0d3;
             color: white;
@@ -202,22 +245,29 @@
 
         /* ======= 響應式 RWD  ======= */
         @media (max-width: 768px) {
-            header { height: 300px; } /* 手機版 header 縮短高度 */
+            header {
+                height: 300px;
+            }
+
+            /* 手機版 header 縮短高度 */
 
             /* 漢堡選單邏輯 */
             .menu-icon {
-                display: block; /* 顯示漢堡圖示 */
+                display: block;
+                /* 顯示漢堡圖示 */
             }
 
             #nav-links {
-                display: none; /* 預設隱藏選單連結 */
+                display: none;
+                /* 預設隱藏選單連結 */
                 flex-direction: column;
                 background: #11b2e8;
                 padding-bottom: 10px;
             }
 
             #nav-links.active {
-                display: flex; /* 點擊後顯示 */
+                display: flex;
+                /* 點擊後顯示 */
             }
 
             nav a {
@@ -226,19 +276,30 @@
             }
 
             /* 段落內容寬度優化 */
-            .section1, .section2, .section3, .section4 {
+            .section1,
+            .section2,
+            .section3,
+            .section4 {
                 flex-direction: column;
                 align-items: center;
                 padding: 10px;
             }
 
-            .box, .box2, .box3, .box4, .fit, .fit2, .fit3, .fit4 {
+            .box,
+            .box2,
+            .box3,
+            .box4,
+            .fit,
+            .fit2,
+            .fit3,
+            .fit4 {
                 max-width: 95%;
                 flex: 1 1 auto;
             }
 
             .slideshow-container img {
-                height: 250px; /* 手機版輪播圖高度縮小避免變形 */
+                height: 250px;
+                /* 手機版輪播圖高度縮小避免變形 */
             }
         }
     </style>
@@ -341,7 +402,7 @@
             navLinks.classList.toggle("active");
         }
 
-        
+
         let slideIndex = 1;
         let slideTimer;
         const slideshow = document.getElementById("slideshow");
