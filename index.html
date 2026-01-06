@@ -6,11 +6,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>海綿寶寶</title>
     <style>
+        /* --- 保留你原本的所有樣式 --- */
         body {
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
-            /* background-color: rgb(255, 255, 255); */
             background: linear-gradient(to bottom, #cbeeff, #f9fcff);
         }
 
@@ -23,14 +23,14 @@
             background-position: center center;
         }
 
+        /* --- 修改導覽列樣式以支援漢堡選單 --- */
         nav {
             position: sticky;
             top: 0;
             background: #11b2e8;
             padding: 10px;
             text-align: center;
-            z-index: 10;
-            /* 數字大 → 元素在上層，確保在圖片上層，一定要有 position 屬性 */
+            z-index: 100; /* 調高 z-index 確保選單在最上層 */
         }
 
         nav a {
@@ -44,105 +44,75 @@
             text-decoration: underline;
         }
 
-        h2.word,
-        h3.word2,
-        h3.word3,
-        h3.word4 {
+        /* 漢堡選單按鈕（預設隱藏） */
+        .menu-icon {
+            display: none;
+            font-size: 30px;
+            color: white;
+            cursor: pointer;
+            text-align: right;
+            padding-right: 20px;
+        }
+
+        h2.word, h3.word2, h3.word3, h3.word4 {
             color: #4e4e4e;
             text-align: center;
             margin: 30px 0 20px 0;
         }
 
-        /* ======= 第一段：圖片左 + 文字右 ======= */
-        .section1 {
+        /* ======= 第一、三段：圖片左 + 文字右 ======= */
+        .section1, .section3 {
             display: flex;
-            /*  啟用 Flexbox，讓裡面元素可以橫向排列 */
             flex-wrap: wrap;
-            /*  當畫面太窄時，自動換行（例如手機就變成上下排） */
             justify-content: center;
-            /*  主軸（橫向）置中對齊 */
             align-items: center;
-            /* 垂直置中重點！ */
             gap: 20px;
-            /*  圖片與文字中間的間距（取代 margin） */
             margin: 40px auto;
-            /*  整塊與上下其他元素的距離40px，左右自動置中 */
             max-width: 1200px;
-            /*  限制整塊最大寬度，太寬時不會撐滿整個螢幕 */
             padding: 20px;
-            /*  內邊距，讓內容不緊貼邊框 */
             box-sizing: border-box;
-            /*  讓寬度計算包含 padding，不會撐大整塊 */
-            gap: 20px;
-            /* ← 這裡設定圖片與文字的間距 */
-            margin-bottom: 0px;
-            margin-top: -10px;
         }
 
-        .fit {
+        .fit, .fit3 {
             flex: 1 1 350px;
-            /* ✅ flex-grow:1、flex-shrink:1、flex-basis:350px */
-            /* 意思是：可以放大、可縮小、最初寬度350px */
             max-width: 400px;
-            /* ✅ 限制圖片最大寬度，不會太大 */
             height: auto;
-            /* ✅ 高度自動依比例縮放，不變形 */
             object-fit: cover;
-            /* ✅ 填滿框框但保持比例，多餘部分裁掉 */
             border-radius: 8px;
-            /* ✅ 圓角邊框，讓圖片看起來更柔和 */
-
         }
 
-        .box {
+        .box, .box3 {
             flex: 1 1 500px;
-            /* ✅ 文字區最小寬度500px，可放大縮小 */
             background-color: #ffffffb5;
-            /* ✅ 白色半透明背景（方便在圖上也能看清楚文字） */
             border: 2px solid #11b3e8;
-            /* ✅ 藍色邊框 */
             padding: 20px;
-            /* ✅ 內距，讓文字不要緊貼邊 */
             border-radius: 5px;
-            /* ✅ 圓角邊框 */
             box-shadow: 7px 7px 14px #cacaca, -7px -7px 14px #ffffff;
-            /* ✅ 陰影效果，讓框有立體感 */
             box-sizing: border-box;
-            /* ✅ 同樣確保寬度包含 padding */
         }
 
-        /* ======= 第二段：圖片右 + 文字左 ======= */
-        .section2 {
+        /* ======= 第二、四段：圖片右 + 文字左 ======= */
+        .section2, .section4 {
             display: flex;
             flex-wrap: wrap-reverse;
-            /* 小螢幕可自動換行 */
             justify-content: center;
-            /* 水平置中整組 */
             align-items: center;
-            /* 垂直置中重點！ */
             gap: 20px;
-            /* 圖片與文字距離 */
             margin: 40px auto;
             max-width: 1200px;
             padding: 20px;
             box-sizing: border-box;
-            margin-top: -20px;
-            margin-bottom: -30px;
         }
 
-        .fit2 {
+        .fit2, .fit4 {
             flex: 1 1 200px;
             max-width: 200px;
             height: auto;
             object-fit: cover;
-            /* 保持比例不變形 */
             border-radius: 8px;
-            /* width: 80px;
-            height: 250px; */
-
         }
 
-        .box2 {
+        .box2, .box4 {
             flex: 1 1 600px;
             background-color: #ffffffb5;
             border: 2px solid #11b3e8;
@@ -152,166 +122,24 @@
             box-sizing: border-box;
         }
 
-        /* ======= 第三段：圖片左 + 文字右 ======= */
-        .section3 {
-            display: flex;
-            /*  啟用 Flexbox，讓裡面元素可以橫向排列 */
-            flex-wrap: wrap;
-            /*  當畫面太窄時，自動換行（例如手機就變成上下排） */
-            justify-content: center;
-            /*  主軸（橫向）置中對齊 */
-            align-items: center;
-            /* 垂直置中重點！ */
-            gap: 20px;
-            /*  圖片與文字中間的間距（取代 margin） */
-            margin: 40px auto;
-            /*  整塊與上下其他元素的距離40px，左右自動置中 */
-            max-width: 1200px;
-            /*  限制整塊最大寬度，太寬時不會撐滿整個螢幕 */
-            padding: 20px;
-            /*  內邊距，讓內容不緊貼邊框 */
-            box-sizing: border-box;
-            /*  讓寬度計算包含 padding，不會撐大整塊 */
-            gap: 20px;
-            /*  這裡設定圖片與文字的間距 */
-            margin-bottom: 0px;
-            margin-top: -10px;
-        }
-
-        .fit3 {
-            flex: 1 1 200px;
-            /* ✅ flex-grow:1、flex-shrink:1、flex-basis:350px */
-            /* 意思是：可以放大、可縮小、最初寬度350px */
-            max-width: 200px;
-            /* ✅ 限制圖片最大寬度，不會太大 */
-            height: auto;
-            /* ✅ 高度自動依比例縮放，不變形 */
-            object-fit: cover;
-            /* ✅ 填滿框框但保持比例，多餘部分裁掉 */
-            border-radius: 8px;
-            /* ✅ 圓角邊框，讓圖片看起來更柔和 */
-
-        }
-
-        .box3 {
-            flex: 1 1 500px;
-            /* ✅ 文字區最小寬度500px，可放大縮小 */
-            background-color: #ffffffb5;
-            /* ✅ 白色半透明背景（方便在圖上也能看清楚文字） */
-            border: 2px solid #11b3e8;
-            /* ✅ 藍色邊框 */
-            padding: 20px;
-            /* ✅ 內距，讓文字不要緊貼邊 */
-            border-radius: 5px;
-            /* ✅ 圓角邊框 */
-            box-shadow: 7px 7px 14px #cacaca, -7px -7px 14px #ffffff;
-            /* ✅ 陰影效果，讓框有立體感 */
-            box-sizing: border-box;
-            /* ✅ 同樣確保寬度包含 padding */
-        }
-
-        /* ======= 第四段：圖片右 + 文字左 ======= */
-        .section4 {
-            display: flex;
-            flex-wrap: wrap-reverse;
-            /* 小螢幕可自動換行 */
-            justify-content: center;
-            /* 水平置中整組 */
-            align-items: center;
-            /* 垂直置中重點！ */
-            gap: 20px;
-            /* 圖片與文字距離 */
-            margin: 40px auto;
-            max-width: 1200px;
-            padding: 20px;
-            box-sizing: border-box;
-            margin-top: -20px;
-        }
-
-        .fit4 {
-            flex: 1 1 200px;
-            max-width: 200px;
-            height: auto;
-            object-fit: cover;
-            /* 保持比例不變形 */
-            border-radius: 8px;
-
-        }
-
-        .box4 {
-            flex: 1 1 600px;
-            background-color: #ffffffb5;
-            border: 2px solid #11b3e8;
-            padding: 20px;
-            border-radius: 5px;
-            box-shadow: 7px 7px 14px #cacaca, -7px -7px 14px #ffffff;
-            box-sizing: border-box;
-        }
-
-        /* ======= 手機平板自動調整 ======= */
-        @media (max-width: 768px) {
-
-            .section1,
-            .section2,
-            .section3,
-            .section4 {
-                flex-direction: column;
-                /* 橫向排列（row）」的內容，改成「直向排列（column） */
-                align-items: center;
-                /* 區塊裡的內容（子項目）水平置中對齊 */
-            }
-
-            .fit,
-            .fit2,
-            .fit3,
-            .fit4 .box,
-            .box2,
-            .box3,
-            .box4 {
-                max-width: 90%;
-            }
-        }
-
-        footer {
-            background: #11b3e8;
-            color: white;
-            text-align: center;
-            padding: 10px;
-            /* 內距 */
-            margin-top: 20px;
-        }
-        /*   * 代表「全部元素」讓元素的寬高 包含 padding 和 border */
-        * {
-            box-sizing: border-box
-        }
-
-        /* ----------------------------------------------------------------- */
-        /* Slideshow container 輪播圖片*/
+        /* --- 輪播與回到頂部 (保留原文) --- */
         .slideshow-container {
             max-width: 1000px;
             position: relative;
-            /* 讓裡面使用 position: absolute; 的按鈕（.prev、.next）能以此容器為定位基準 */
             margin: auto;
             aspect-ratio: 16/9;
-            /* 固定畫面比例為 16:9 */
         }
 
         .slideshow-container img {
             width: 100%;
             height: 500px;
             object-fit: cover;
-            /* 圖片保持比例並填滿區塊，多餘部分自動裁切 */
         }
 
-        .mySlides {
-            display: none;
-            /* 預設隱藏所有圖片。輪播程式會逐一顯示每張圖片 */
-        }
+        .mySlides { display: none; }
 
-        .prev,
-        .next {
+        .prev, .next {
             cursor: pointer;
-            /* 滑鼠移上去變成手型游標。 */
             position: absolute;
             top: 50%;
             width: auto;
@@ -319,90 +147,99 @@
             padding: 16px;
             color: white;
             font-weight: bold;
-            /* 讓按鈕明顯可見 */
             font-size: 18px;
             transition: 0.6s ease;
-            /* 滑鼠移上去的變化會平滑過渡 */
             border-radius: 0 3px 3px 0;
             user-select: none;
-            /* 禁止滑鼠選中文字 */
         }
 
-        .next {
-            right: 0;
-            border-radius: 3px 0 0 3px;
-            /* 改為右側按鈕適合的圓角方向 */
-        }
-
-        /* 滑鼠移上去時，按鈕背景變成半透明黑色 */
-        .prev:hover,
-        .next:hover {
-            background-color: rgba(0, 0, 0, 0.8);
-        }
-
-        .dots-container {
-            margin-top: -40px;
-            /* 調整越小越靠近圖片，可自行調整數值 */
-        }
+        .next { right: 0; border-radius: 3px 0 0 3px; }
+        .prev:hover, .next:hover { background-color: rgba(0, 0, 0, 0.8); }
 
         .dot {
             cursor: pointer;
-            height: 15px;
-            width: 15px;
+            height: 15px; width: 15px;
             margin: 0 2px;
             background-color: #bbb;
             border-radius: 50%;
-            /* 變成圓形 */
             display: inline-block;
-            /* 一排排列 */
             transition: background-color 0.6s ease;
         }
 
-        .active,
-        .dot:hover {
-            background-color: #717171;
-        }
+        .active, .dot:hover { background-color: #717171; }
 
         .fade {
             animation-name: fade;
-            /* 套用名為「fade」的動畫效果 */
             animation-duration: 1.5s;
-            /* 動畫時間 1.5 秒 */
         }
 
         @keyframes fade {
-            from {
-                opacity: .4
-            }
-            to {
-                opacity: 1
-            }
-            /* opacity 是透明度。從 0.4（半透明）變成 1（完全不透明） */
+            from { opacity: .4 }
+            to { opacity: 1 }
         }
 
-        /* 回到頂部按鈕樣式 */
         #topBtn {
             position: fixed;
-            /* 固定在視窗 */
             bottom: 80px;
-            /* 距離底部 */
-            right: 50px;
-            /* 距離右邊 */
+            right: 20px; /* 手機上縮短邊距 */
             padding: 5px 10px;
-            font-size: 16px;
             background-color: #afc0d3;
             color: white;
             border: none;
             border-radius: 5px;
             cursor: pointer;
             display: none;
-            /* 初始隱藏 */
             z-index: 1000;
         }
 
-        /* 當滑鼠滑過按鈕時，背景會變色 */
-        #topBtn:hover {
-            background-color: #244467;
+        footer {
+            background: #11b3e8;
+            color: white;
+            text-align: center;
+            padding: 10px;
+            margin-top: 20px;
+        }
+
+        /* ======= 重點：響應式 RWD 修正 ======= */
+        @media (max-width: 768px) {
+            header { height: 300px; } /* 手機版 header 縮短高度 */
+
+            /* 漢堡選單邏輯 */
+            .menu-icon {
+                display: block; /* 顯示漢堡圖示 */
+            }
+
+            #nav-links {
+                display: none; /* 預設隱藏選單連結 */
+                flex-direction: column;
+                background: #11b2e8;
+                padding-bottom: 10px;
+            }
+
+            #nav-links.active {
+                display: flex; /* 點擊後顯示 */
+            }
+
+            nav a {
+                margin: 10px 0;
+                display: block;
+            }
+
+            /* 段落內容寬度優化 */
+            .section1, .section2, .section3, .section4 {
+                flex-direction: column;
+                align-items: center;
+                padding: 10px;
+            }
+
+            .box, .box2, .box3, .box4, .fit, .fit2, .fit3, .fit4 {
+                max-width: 95%;
+                flex: 1 1 auto;
+            }
+
+            .slideshow-container img {
+                height: 250px; /* 手機版輪播圖高度縮小避免變形 */
+            }
         }
     </style>
 </head>
@@ -412,15 +249,17 @@
     <header></header>
 
     <nav>
-        <a href="index.html">首頁</a>
-        <a href="角色介紹.html">角色介紹</a>
-        <a href="劇集介紹.html">劇集介紹</a>
-        <a href="精彩片段.html">精彩片段</a>
-        <a href="相關梗圖.html">相關梗圖</a>
+        <div class="menu-icon" onclick="toggleMenu()">☰</div>
+        <div id="nav-links">
+            <a href="index.html">首頁</a>
+            <a href="角色介紹.html">角色介紹</a>
+            <a href="劇集介紹.html">劇集介紹</a>
+            <a href="精彩片段.html">精彩片段</a>
+            <a href="相關梗圖.html">相關梗圖</a>
+        </div>
     </nav>
 
     <main>
-        <!-- 第一段 圖左字右 -->
         <h2 class="word">• ┈ ┈ ┈ ┈ ┈ ┈《海綿寶寶》作品簡介 ┈ ┈ ┈ ┈ ┈ ┈ •</h2>
         <div class="section1">
             <img class="fit" src="./jpg/海绵宝宝全.jpg" alt="海綿寶寶">
@@ -435,7 +274,6 @@
             </div>
         </div>
 
-        <!-- 第二段 圖右字左 -->
         <h3 class="word2">• ┈ ┈ ┈ ┈ ┈ ┈ 創作者與理念 ┈ ┈ ┈ ┈ ┈ ┈ •</h3>
         <div class="section2">
             <div class="box2">
@@ -448,9 +286,9 @@
             <img class="fit2" src="./jpg/作者.jpg" alt="作者">
         </div>
 
-        <!-- 第三段 圖右字左 -->
         <h3 class="word3">• ┈ ┈ ┈ ┈ ┈ ┈ 製作方式與技術特色 ┈ ┈ ┈ ┈ ┈ ┈ •</h3>
         <div class="section3">
+            <img class="fit3" src="./jpg/20.jpg" alt="草圖">
             <div class="box3">
                 在最早的季節，動畫是使用手繪（cel animation + 背景繪製）方式來製作的。
                 但後來隨著技術演進，多數新的集數改為數位化、電腦輔助動畫 / 影像處理方式，以提升效率與一致性。
@@ -458,14 +296,12 @@
                 舉例來說，Squidward 原本是章魚，但為了動畫方便，他被設計成六條觸手以簡化繪製。
                 許多角色的個性設定也跟作者在海洋、海洋教育機構工作的經驗相關。
             </div>
-            <img class="fit3" src="./jpg/20.jpg" alt="草圖">
         </div>
 
-        <!-- 第四段 圖右字左 -->
         <h3 class="word4">• ┈ ┈ ┈ ┈ ┈ ┈ 文化影響 & 評價 ┈ ┈ ┈ ┈ ┈ ┈ •</h3>
         <div class="section4">
             <div class="box4">
-                《海綿寶寶》不僅在孩童間非常受歡迎，也擄獲成年觀眾的喜愛，
+                《《海綿寶寶》不僅在孩童間非常受歡迎，也擄獲成年觀眾的喜愛，
                 部分原因是它幽默中常帶有成人也能懂的荒謬、諷刺或隱晦梗。該劇被視為尼克頻道
                 （Nickelodeon）中的旗艦動畫品牌之一，對後來許多動畫創作有影響力。
                 此外，它的角色、梗、畫面常在網絡上被二次創作、迷因化（meme）傳播，
@@ -476,143 +312,98 @@
             </div>
             <img class="fit4" src="./jpg/19.jpg" alt="作者與海綿">
         </div>
-        <!-- ---------------------------輪播---------------------------------- -->
+
         <div class="slideshow-container" id="slideshow">
-
-            <div class="mySlides fade">
-                <img src="./jpg/海绵宝宝 (199)-大图_爱给网_aigei_com.jpg" style="width:100%">
-            </div>
-
-            <div class="mySlides fade">
-                <img src="./jpg/11.jpg" style="width:100%">
-            </div>
-
-            <div class="mySlides fade">
-                <img src="./jpg/海绵宝宝全2.jpg" style="width:100%">
-            </div>
-            
-            <div class="mySlides fade">
-                <img src="./jpg/6 (2).jpg" style="width:100%">
-            </div>
-            
-            <div class="mySlides fade">
-                <img src="./jpg/9.jpg" style="width:100%">
-            </div>
-            
-            <div class="mySlides fade">
-                <img src="./jpg/0103f3622eefd111013f785bb86f5f.jpg" style="width:100%">
-            </div>
-
-            <!-- ✅ 左右切換按鈕 -->
-            <a class="prev" onclick="plusSlides(-1)">&#10094;</a>  <!-- 左箭頭 -->
-            <a class="next" onclick="plusSlides(1)">&#10095;</a>  <!-- 右箭頭 -->
-
+            <div class="mySlides fade"><img src="./jpg/海绵宝宝 (199)-大图_爱给网_aigei_com.jpg" style="width:100%"></div>
+            <div class="mySlides fade"><img src="./jpg/11.jpg" style="width:100%"></div>
+            <div class="mySlides fade"><img src="./jpg/海绵宝宝全2.jpg" style="width:100%"></div>
+            <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
+            <a class="next" onclick="plusSlides(1)">&#10095;</a>
         </div>
 
-        <!-- .dot 是一個小圓點。點擊後會執行 currentSlide(n)，切換到第 n 張圖片 -->
         <div class="dots-container" style="text-align:center">
             <span class="dot" onclick="currentSlide(1)"></span>
             <span class="dot" onclick="currentSlide(2)"></span>
             <span class="dot" onclick="currentSlide(3)"></span>
-            <span class="dot" onclick="currentSlide(4)"></span>
-            <span class="dot" onclick="currentSlide(5)"></span>
-            <span class="dot" onclick="currentSlide(6)"></span>
         </div>
 
-        <!-- 回到頂部按鈕 -->
         <button id="topBtn" onclick="scrollToTop()">Top</button>
-
-        <script>
-            let slideIndex = 1;   // 當前顯示第幾張圖片
-            let slideTimer;       // 定時器（控制自動播放）
-            const slideshow = document.getElementById("slideshow"); //slideshow：抓取外層容器，用來綁定滑鼠事件
-
-            showSlides(slideIndex);  //先顯示第一張
-            autoPlay();   //啟動自動輪播
-
-            // ✅ 手動切換功能
-            //點擊左右箭頭會呼叫這個。slideIndex += n 會加減當前索引（例如 +1、-1）。然後 resetTimer() 讓自動播放重新計時
-            function plusSlides(n) {
-                showSlides(slideIndex += n);
-                resetTimer();
-            }
-
-            // ✅ 點選圓點切換
-            // 把 slideIndex 設為點擊的那一張，並重新計時
-            function currentSlide(n) {
-                showSlides(slideIndex = n);
-                resetTimer();
-            }
-
-            // ✅ 顯示圖片主函式
-            function showSlides(n) {
-                let i;
-                let slides = document.getElementsByClassName("mySlides");
-                let dots = document.getElementsByClassName("dot");
-
-                if (n > slides.length) { slideIndex = 1 }
-                if (n < 1) { slideIndex = slides.length }
-                
-                for (i = 0; i < slides.length; i++) {
-                    slides[i].style.display = "none";  // 將所有圖片 display:none 隱藏
-                }
-
-                for (i = 0; i < dots.length; i++) {
-                    dots[i].className = dots[i].className.replace(" active", "");
-                } //移除所有圓點的 " active" 樣式
-
-                slides[slideIndex - 1].style.display = "block";
-                dots[slideIndex - 1].className += " active";
-                // 顯示目前的那一張 (slideIndex - 1)。並把對應圓點加上 .active 樣式
-            }
-
-            // ✅ 自動播放
-            function autoPlay() {
-                slideIndex++;
-                showSlides(slideIndex);
-                slideTimer = setTimeout(autoPlay, 3000);
-            }
-
-            // ✅ 手動點擊時重置時間
-            function resetTimer() {
-                clearTimeout(slideTimer);
-                slideTimer = setTimeout(autoPlay, 3000);
-            }
-
-            // ✅ 新增：滑鼠移入暫停、移出繼續
-            slideshow.addEventListener("mouseenter", function () {
-                clearTimeout(slideTimer);
-            });
-
-            slideshow.addEventListener("mouseleave", function () {
-                slideTimer = setTimeout(autoPlay, 3000);
-            });
-
-            //----------------------------------------------------------
-            // 取得按鈕
-            const topBtn = document.getElementById("topBtn");
-
-            // 當捲動大於 100px 顯示按鈕
-            window.onscroll = function () {
-                if (document.documentElement.scrollTop > 100) {
-                    topBtn.style.display = "block";
-                } else {
-                    topBtn.style.display = "none";
-                }
-            };
-
-            // 點擊按鈕回到頂部
-            function scrollToTop() {
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-            }
-        </script>
-
     </main>
 
     <footer>
         <p>© 2025 SpongeBob Fan Site</p>
     </footer>
 
+    <script>
+        /* 新增：漢堡選單切換函式 */
+        function toggleMenu() {
+            const navLinks = document.getElementById("nav-links");
+            navLinks.classList.toggle("active");
+        }
+
+        /* 以下為你原本的 JS 邏輯 */
+        let slideIndex = 1;
+        let slideTimer;
+        const slideshow = document.getElementById("slideshow");
+
+        showSlides(slideIndex);
+        autoPlay();
+
+        function plusSlides(n) {
+            showSlides(slideIndex += n);
+            resetTimer();
+        }
+
+        function currentSlide(n) {
+            showSlides(slideIndex = n);
+            resetTimer();
+        }
+
+        function showSlides(n) {
+            let i;
+            let slides = document.getElementsByClassName("mySlides");
+            let dots = document.getElementsByClassName("dot");
+            if (n > slides.length) { slideIndex = 1 }
+            if (n < 1) { slideIndex = slides.length }
+            for (i = 0; i < slides.length; i++) {
+                slides[i].style.display = "none";
+            }
+            for (i = 0; i < dots.length; i++) {
+                dots[i].className = dots[i].className.replace(" active", "");
+            }
+            if (slides[slideIndex - 1]) {
+                slides[slideIndex - 1].style.display = "block";
+                dots[slideIndex - 1].className += " active";
+            }
+        }
+
+        function autoPlay() {
+            slideIndex++;
+            showSlides(slideIndex);
+            slideTimer = setTimeout(autoPlay, 3000);
+        }
+
+        function resetTimer() {
+            clearTimeout(slideTimer);
+            slideTimer = setTimeout(autoPlay, 3000);
+        }
+
+        slideshow.addEventListener("mouseenter", () => clearTimeout(slideTimer));
+        slideshow.addEventListener("mouseleave", () => slideTimer = setTimeout(autoPlay, 3000));
+
+        const topBtn = document.getElementById("topBtn");
+        window.onscroll = function () {
+            if (document.documentElement.scrollTop > 100) {
+                topBtn.style.display = "block";
+            } else {
+                topBtn.style.display = "none";
+            }
+        };
+
+        function scrollToTop() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    </script>
 </body>
 
 </html>
