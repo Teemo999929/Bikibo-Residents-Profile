@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>比奇堡居民</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            /* background-color: rgb(255, 255, 255); */
+            background: linear-gradient(to bottom, #cbeeff, #f9fcff);
+        }
+
+        header {
+            background-image: url("./jpg/未命名設計.jpg");
+            max-width: 100%;
+            height: 600px;
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-position: center center;
+            position: sticky;
+            z-index: 99;
+        }
+
+        nav {
+            position: sticky;
+            top: 0;
+            background: #11b2e8;
+            padding: 10px;
+            text-align: center;
+            z-index: 99;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin: 0 15px;
+            font-weight: bold;
+        }
+
+        nav a:hover {
+            text-decoration: underline;
+        }
+
+        .search-bar {
+            display: flex;
+            justify-content: center;
+            margin: 20px auto;
+        }
+
+        .search-bar input {
+            width: 280px;
+            padding: 10px 12px;
+            border-radius: 30px;
+            border: 2px solid #00a9d4;
+            outline: none;
+        }
+
+        /* 排列多個卡片 */
+        .container {
+            display: grid;
+            /* 設為 網格容器，Grid 是二維（橫＋直）控制 */
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            /* 每張卡片最小200px寬 ，自動分配剩餘空間，fr最常用在 grid */
+            gap: 20px;
+            /* 格子之間的間距 */
+            padding: 20px;
+            /* 容器內部的內距，避免卡片緊貼容器邊緣 */
+            max-width: 1100px;
+            /* 整個容器最大寬度為 1100px */
+            margin: 0 auto;
+            /* 單一卡片或不足一列時置中 */
+            justify-content: center;
+            /* 整個 grid 區塊 在容器內水平置中 */
+            justify-items: center;
+            /* 每個格子內的項目（卡片） 水平置中 */
+        }
+
+        .card {
+            background: white;
+            border-radius: 16px;
+            /* 卡片的 圓角半徑 */
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+            /* 卡片的 陰影效果 */
+            overflow: hidden;
+            /* 隱藏超出邊界的內容 */
+            transition: transform 0.2s;
+            /* 卡片在變形（transform）時，會有 0.2 秒的動畫過渡效果。 */
+            cursor: pointer;
+            /* 鼠游標變成「小手」 */
+            width: 100%;
+            /* 卡片會撐滿它所在的網格欄位 */
+            max-width: 280px;
+            /* 最多不超過 280px */
+            margin: 0 auto;
+            /* 讓卡片在容器中 水平置中 */
+        }
+
+        /* transform 是一個用來做變形效果的屬性（例如移動、縮放等）
+        translateY(-5px) 代表「在垂直方向上往上移動 5px」。 */
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+        .card img {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            background: #f0f0f0;
+
+        }
+
+        /* 內距，與邊框保持上下 12px、左右 16px 的距離 */
+        .card-content {
+            padding: 12px 16px;
+        }
+
+        /* 人物名稱 */
+        .card-content h3 {
+            margin: 0;
+            font-size: 18px;
+            color: #006c8f;
+        }
+
+        /* 人物介紹 */
+        .card-content p {
+            margin: 4px 0 0;
+            /* 外邊距 上 4px、左右0px、下0px */
+            font-size: 14px;
+            color: #555;
+        }
+
+        /* 詳情視窗 */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 10;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+        }
+
+        /* 詳情視窗文字 */
+        .modal-content {
+            background: white;
+            border-radius: 16px;
+            max-width: 500px;
+            margin: 8% auto;
+            padding: 20px;
+            position: relative;
+            text-align: center;
+        }
+
+        /* 詳情視窗圖片 */
+        .modal-content img {
+            width: 200px;
+            border-radius: 10px;
+            display: block;
+            margin: 0 auto;
+
+        }
+
+        /* 叉叉 */
+        .close {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            font-size: 20px;
+            cursor: pointer;
+            color: #888;
+        }
+
+        /* 按叉叉變顏色 */
+        .close:hover {
+            color: #000;
+        }
+
+        main {
+            padding: 20px;
+            text-align: center;
+
+            .box {
+                position: absolute;
+                right: 25px;
+                /* 貼齊右邊 */
+                top: 500px;
+                width: 700px;
+                background-color: rgba(145, 211, 252, 0.5);
+                border: 2px solid rgb(255, 255, 255);
+                padding: 20px;
+
+            }
+        }
+
+        main img {
+            display: block;
+            /* 讓 margin 生效 */
+            margin-left: auto;
+            width: 400px;
+            /* height: 300px; */
+            object-fit: cover;
+        }
+
+        footer {
+            background: #11b3e8;
+            color: white;
+            text-align: center;
+            padding: 10px;
+            margin-top: 20px;
+        }
+
+        * {
+            box-sizing: border-box
+        }
+
+        /* 回到頂部按鈕樣式 */
+        #topBtn {
+            position: fixed;
+            /* 固定在視窗 */
+            bottom: 80px;
+            /* 距離底部 */
+            right: 50px;
+            /* 距離右邊 */
+            padding: 5px 10px;
+            font-size: 16px;
+            background-color: #afc0d3;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            display: none;
+            /* 初始隱藏 */
+            z-index: 1000;
+        }
+
+        /* 當滑鼠滑過按鈕時，背景會變色 */
+        #topBtn:hover {
+            background-color: #244467;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <!-- <h1>歡迎來到海綿寶寶介紹網站</h1> -->
+        <!-- <img src="./SpongeBob_SquarePants_with_2023_Nickelodeon_Logo.png"> -->
+    </header>
+
+    <nav>
+        <a href="index.html">首頁</a>
+        <a href="角色介紹.html">角色介紹</a>
+        <a href="劇集介紹.html">劇集介紹</a>
+        <a href="精彩片段.html">精彩片段</a>
+        <a href="相關梗圖.html">相關梗圖</a>
+    </nav>
+
+    <main>
+        <div class="search-bar">
+            <input type="text" id="searchInput" placeholder="搜尋角色名稱...">
+        </div>
+
+        <div class="container" id="characterList">
+            <!-- 卡片動態生成 -->
+        </div>
+
+        <!-- 詳情彈窗 -->
+        <div id="modal" class="modal">
+            <div class="modal-content">
+                <span class="close" id="closeModal">&times;</span>
+                <img id="modalImg" src="" alt="">
+                <h2 id="modalName"></h2>
+                <p id="modalDesc"></p>
+            </div>
+        </div>
+
+        <!-- 回到頂部按鈕 -->
+        <button id="topBtn" onclick="scrollToTop()">Top</button>
+
+        <script>
+            const characters = [
+                {
+                    name: "海綿寶寶",
+                    img: "./jpg/14.jpg",
+                    desc: "樂觀、開朗，在蟹堡王擔任廚師。最愛吹泡泡與抓水母。"
+                },
+                {
+                    name: "派大星",
+                    img: "./jpg/18.jpg",
+                    desc: "住在石頭底下的海星，是海綿寶寶的好朋友。天真又有點呆。"
+                },
+                {
+                    name: "章魚哥",
+                    img: "./jpg/16.jpg",
+                    desc: "海綿寶寶的鄰居，性格傲慢，喜愛音樂與藝術。"
+                },
+                {
+                    name: "蟹老闆",
+                    img: "./jpg/17.jpg",
+                    desc: "蟹堡王老闆，愛錢如命但有生意頭腦。"
+                },
+                {
+                    name: "珊迪",
+                    img: "./jpg/21.jpg",
+                    desc: "來自德州的松鼠，住在水下圓頂屋中，是科學家兼武術高手。"
+                },
+                {
+                    name: "泡芙阿姨",
+                    img: "./jpg/泡芙阿姨.jpg",
+                    desc: "金髮河豚，海底駕訓班經營者兼老師。原本有老公也是河豚，可是被人類做成檯燈，她不喜歡提到這件事。驚嚇過度或過於激動時將會全身膨脹，而有時候甚至被移送至醫院。"
+                },
+                {
+                    name: "珍珍",
+                    img: "./jpg/珍珍.jpg",
+                    desc: "蟹老闆的抹香鯨女兒，正值青春期，喜愛流行與時尚，相當愛面子。與蟹老闆相反，非常愛慕虛榮，經常大手大腳花錢，生日願望甚至能刷爆蟹老闆的信用卡。對海綿寶寶沒有好感，對父親蟹老闆的小氣態度感到相當無奈，常常希望他可以改變。"
+                },
+                {
+                    name: "小蝸",
+                    img: "./jpg/小蝸.jpg",
+                    desc: "海綿寶寶的寵物蝸牛，擁有理解自然語言並進行溝通的能力，多數時候待在海綿寶寶家中，十分聰明。底盤會分泌蝸牛黏液，所經之處有時會布滿黏液。通常只會發出貓叫聲，但在夢中卻會正常地說話。很不喜歡洗澡。"
+                },
+                {
+                    name: "皮老闆",
+                    img: "./jpg/皮老闆.jpg",
+                    desc: "是浮游生物，只有一隻眼睛，為人奸詐險惡。蟹老闆的死對頭，該作品的主要反派角色之一。快餐店海之霸餐廳（Chum Bucket）的老闆，餐點奇毒無比，相較於對面的蟹堡王餐廳，沒什麼客人。"
+                },
+                {
+                    name: "凱倫",
+                    img: "./jpg/凱倫.jpg",
+                    desc: "皮老闆的機器人妻子，是一台電腦，很有自己的想法，對於皮老闆一再的失敗已經見怪不怪。該作品的第二反派角色之一。會提供意見給皮老闆，甚至取得到美味蟹堡祖傳祕方，但有時會被皮老闆當狗頭軍師，有幾集常常因為皮老闆偷秘方一再失敗而鬧翻甚至要鬧分手，但最後至少都能重和舊好。"
+                },
+                {
+                    name: "海超人",
+                    img: "./jpg/海超人.jpg",
+                    desc: "年輕時是著名的超級英雄，與大洋遊俠是搭檔，是其中的領隊。72歲，處於半退休狀態，居住在沙沙礁岩安養中心。因目前年紀已長，有明顯的失智症。聽到「壞蛋（EVILLLLL！）」就會激動而大喊。"
+                },
+                {
+                    name: "大洋遊俠",
+                    img: "./jpg/大洋遊俠.jpg",
+                    desc: "年輕時是著名的超級英雄，海超人的跟班。68歲，處於半退休狀態，居住在沙沙礁岩安養中心。對海超人的失智症感到很無奈。曾一度變壞，只因海超人總是給他吃小份美味蟹堡，跟魔魟和骯髒泡泡組成「每個壞蛋都是檸檬」。"
+                },
+                {
+                    name: "蝦霸",
+                    img: "./jpg/蝦霸.jpg",
+                    desc: "雄性健美海螯蝦（台灣譯為龍蝦），酷樂湖的救生員，偏好健身和極限運動。因為壯碩身材而常受到海底女性的歡迎，有自戀傾向。"
+                },
+                {
+                    name: "海盜阿西",
+                    img: "./jpg/海盜阿西.jpg",
+                    desc: "湯姆‧肯尼（Tom Kenny）本人演出該作品的真人角色。是一名海盜及海綿寶寶的粉絲俱樂部會長。"
+                },
+                {
+                    name: "鸚鵡波弟",
+                    img: "./jpg/鸚鵡波弟.jpg",
+                    desc: "在海盜阿西旁邊的傀儡鸚鵡，製作頗為粗糙。個性非常煩人，喜歡跟海盜阿西頂嘴。"
+                },
+                {
+                    name: "飛行荷蘭人",
+                    img: "./jpg/飛行荷蘭人.jpg",
+                    desc: "生性暴躁的荷蘭裔幽靈海盜，居住於一艘同名的大型鬼船，有蒐集靈魂和臭襪子的癖好。具超自然力量。能夠無形體生存、懸停、瞬間移動、能量投射、變身、異世界傳送、物質轉換和實現願望。經常在海底世界遊走，以嚇人為樂。"
+                },
+                {
+                    name: "海綿寶寶爸媽",
+                    img: "./jpg/海綿寶寶爸媽.jpg",
+                    desc: "阿洛(右)海綿寶寶的父親，體色為褐色。瑪格麗特(左)，海綿寶寶的母親，體色為橘黃色，常穿著紫色帽子和裙子。"
+                },
+                {
+                    name: "花花公子帥章魚",
+                    img: "./jpg/花花公子帥章魚.jpg",
+                    desc: "章魚哥的冤家。長相與章魚哥幾乎一致，但有濃厚的一字眉，個性非常驕傲。擁有章魚哥所想要的一切，生活非常富裕奢靡。且凡有相關競爭情節，結果多由帥章魚占盡上風。"
+                },
+                {
+                    name: "螃蟹老媽",
+                    img: "./jpg/螃蟹老媽.jpg",
+                    desc: "蟹老闆的母親，為人相當強勢，但當聽到太多髒話時會昏倒。曾經和皮老闆交往過，但因為蟹堡秘方一事而分手。"
+                },
+                {
+                    name: "魔魟",
+                    img: "./jpg/魔魟.jpg",
+                    desc: "海底壞蛋之一，海超人與大洋遊俠的主要敵人，具有如同人類的身體，配戴射線狀的面罩。"
+                }
+            ];
+
+            const list = document.getElementById("characterList");
+            const modal = document.getElementById("modal");
+            const closeModal = document.getElementById("closeModal");
+
+            const modalImg = document.getElementById("modalImg");
+            const modalName = document.getElementById("modalName");
+            const modalDesc = document.getElementById("modalDesc");
+
+            // 產生角色卡
+            function renderList(filter = "") {
+                list.innerHTML = "";
+                const filtered = characters.filter(c =>
+                    c.name.includes(filter)
+                );
+                filtered.forEach(c => {
+                    const div = document.createElement("div");
+                    div.className = "card";
+                    div.innerHTML = `
+        <img src="${c.img}" alt="${c.name}">
+        <div class="card-content">
+          <h3>${c.name}</h3>
+          <p>${c.desc.slice(0, 20)}...</p>
+        </div>
+      `;
+                    div.onclick = () => openModal(c);
+                    list.appendChild(div);
+                });
+            }
+
+            function openModal(c) {
+                modalImg.src = c.img;
+                modalName.textContent = c.name;
+                modalDesc.textContent = c.desc;
+                modal.style.display = "block";
+            }
+
+            closeModal.onclick = () => modal.style.display = "none";
+            window.onclick = e => { if (e.target === modal) modal.style.display = "none"; };
+
+            document.getElementById("searchInput").addEventListener("input", e => {
+                renderList(e.target.value);
+            });
+
+            renderList();
+
+
+
+            // 取得按鈕
+            const topBtn = document.getElementById("topBtn");
+
+            // 當捲動大於 100px 顯示按鈕
+            window.onscroll = function () {
+                if (document.documentElement.scrollTop > 100) {
+                    topBtn.style.display = "block";
+                } else {
+                    topBtn.style.display = "none";
+                }
+            };
+
+            // 點擊按鈕回到頂部
+            function scrollToTop() {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+        </script>
+
+
+
+    </main>
+
+    <footer>
+        <p>© 2025 SpongeBob Fan Site</p>
+    </footer>
+
+</body>
+
+</html>

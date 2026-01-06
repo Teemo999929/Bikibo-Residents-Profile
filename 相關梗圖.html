@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>梗圖隨機抽取</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            /* background-color: rgb(255, 255, 255); */
+            background: linear-gradient(to bottom, #cbeeff, #f9fcff);
+        }
+
+        header {
+            background-image: url("./jpg/未命名設計.jpg");
+            max-width: 100%;
+            height: 600px;
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-position: center center;
+        }
+
+        nav {
+            position: sticky;
+            top: 0;
+            background: #11b2e8;
+            padding: 10px;
+            text-align: center;
+            z-index: 99;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin: 0 15px;
+            font-weight: bold;
+        }
+
+        nav a:hover {
+            text-decoration: underline;
+        }
+
+        /* ----------------------------------------------- */
+
+        main {
+            padding: 20px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            /* 讓內容水平置中 */
+            justify-content: center;
+            /* 讓內容垂直置中 */
+            min-height: 70vh;
+            /* 撐開畫面高度讓卡片在中間 */
+        }
+
+        h2 {
+            margin-top: 30px;
+            margin-bottom: 50px;
+            background: #ffffff;
+            color: #4b4b4b;
+            padding: 10px 30px;
+            border-radius: 50px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            border: 2px solid #00a9d4;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 16px;
+            padding: 20px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+            max-width: 750px;
+            width: 90%;
+            /* margin-top: 20px; */
+            margin: 0 auto;
+            /* 讓卡片水平置中 */
+            text-align: center;
+            /* 讓卡片內容（圖片與按鈕）置中 */
+        }
+
+        .card img {
+            display: block;
+            margin: 0 auto;
+            /* 圖片置中 */
+            width: 100%;
+            height: 450px;
+            border-radius: 12px;
+            transition: opacity 0.6s ease;
+        }
+
+        button {
+            margin-top: 20px;
+            background-color: #11b2e8;
+            color: #ffffff;
+            border: none;
+            border-radius: 12px;
+            padding: 12px 24px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            transition: transform 0.2s ease;
+        }
+
+        /* 按鈕滑過 */
+        button:hover {
+            transform: scale(1.05);
+            background-color: #ffeb7a;
+        }
+
+        footer {
+            background: #11b2e8;
+            color: white;
+            text-align: center;
+            padding: 10px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <!-- <h1>歡迎來到海綿寶寶介紹網站</h1> -->
+        <!-- <img src="./SpongeBob_SquarePants_with_2023_Nickelodeon_Logo.png"> -->
+    </header>
+
+    <nav>
+        <a href="index.html">首頁</a>
+        <a href="角色介紹.html">角色介紹</a>
+        <a href="劇集介紹.html">劇集介紹</a>
+        <a href="精彩片段.html">精彩片段</a>
+        <a href="相關梗圖.html">相關梗圖</a>
+    </nav>
+
+    <main>
+        <h2>🧽 梗圖抽圖器 🧽</h2>
+
+        <div class="card">
+            <img id="spongeImage" src="" alt="海綿寶寶角色圖片">
+            <button id="randomBtn">隨機抽圖！</button>
+        </div>
+        <script>
+            // 海綿寶寶角色圖片清單（公開網路圖）
+            const images = [
+                "./梗/梗1.jpg",
+                "./梗/梗2.jpg",
+                "./梗/梗3.jpg",
+                "./梗/梗4.jpg",
+                "./梗/梗5.jpg",
+                "./梗/梗6.jpg",
+                "./梗/梗7.jpg",
+                "./梗/梗8.jpg",
+                "./梗/梗9.jpg",
+                "./梗/梗10.jpg",
+                "./梗/梗11.jpg",
+                "./梗/梗12.jpg",
+                "./梗/梗13.jpg",
+                "./梗/梗14.jpg",
+                "./梗/梗15.jpg",
+
+            ];
+
+            const imgEl = document.getElementById('spongeImage');
+            const btnEl = document.getElementById('randomBtn');
+
+            // 隨機抽圖片
+            function showRandomImage() {
+                const randomIndex = Math.floor(Math.random() * images.length);
+                const randomImage = images[randomIndex];
+                imgEl.style.opacity = 0;
+                setTimeout(() => {
+                    imgEl.src = randomImage;
+                    imgEl.style.opacity = 1;
+                }, 300);
+            }
+
+            // 預設先顯示一張
+            showRandomImage();
+
+            // 綁定按鈕
+            btnEl.addEventListener('click', showRandomImage);
+        </script>
+
+
+    </main>
+
+    <footer>
+        <p>© 2025 SpongeBob Fan Site</p>
+    </footer>
+
+</body>
+
+</html>
