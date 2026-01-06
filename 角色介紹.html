@@ -31,7 +31,7 @@
             background: #11b2e8;
             padding: 10px;
             text-align: center;
-            z-index: 99;
+            z-index: 100; /* 提升 z-index 確保在 header 之上 */
         }
 
         nav a {
@@ -44,6 +44,39 @@
         nav a:hover {
             text-decoration: underline;
         }
+
+        /* --- 漢堡選單樣式開始 --- */
+        .menu-icon {
+            display: none; /* 電腦版隱藏 */
+            font-size: 28px;
+            color: white;
+            cursor: pointer;
+            text-align: right;
+            padding-right: 20px;
+        }
+
+        @media (max-width: 768px) {
+            .menu-icon {
+                display: block; /* 手機版顯示 */
+            }
+
+            #navLinks {
+                display: none; /* 預設隱藏連結 */
+                flex-direction: column;
+                background: #11b2e8;
+                padding-top: 10px;
+            }
+
+            #navLinks.active {
+                display: flex; /* 點擊後顯示 */
+            }
+
+            nav a {
+                margin: 10px 0;
+                display: block;
+            }
+        }
+        /* --- 漢堡選單樣式結束 --- */
 
         .search-bar {
             display: flex;
@@ -137,7 +170,7 @@
         .modal {
             display: none;
             position: fixed;
-            z-index: 10;
+            z-index: 1000; /* 確保在所有元素之上 */
             left: 0;
             top: 0;
             width: 100%;
@@ -247,16 +280,17 @@
 
 <body>
     <header>
-        <!-- <h1>歡迎來到海綿寶寶介紹網站</h1> -->
-        <!-- <img src="./SpongeBob_SquarePants_with_2023_Nickelodeon_Logo.png"> -->
-    </header>
+        </header>
 
     <nav>
-        <a href="index.html">首頁</a>
-        <a href="角色介紹.html">角色介紹</a>
-        <a href="劇集介紹.html">劇集介紹</a>
-        <a href="精彩片段.html">精彩片段</a>
-        <a href="相關梗圖.html">相關梗圖</a>
+        <div class="menu-icon" onclick="toggleMenu()">☰</div>
+        <div id="navLinks">
+            <a href="index.html">首頁</a>
+            <a href="角色介紹.html">角色介紹</a>
+            <a href="劇集介紹.html">劇集介紹</a>
+            <a href="精彩片段.html">精彩片段</a>
+            <a href="相關梗圖.html">相關梗圖</a>
+        </div>
     </nav>
 
     <main>
@@ -265,10 +299,8 @@
         </div>
 
         <div class="container" id="characterList">
-            <!-- 卡片動態生成 -->
-        </div>
+            </div>
 
-        <!-- 詳情彈窗 -->
         <div id="modal" class="modal">
             <div class="modal-content">
                 <span class="close" id="closeModal">&times;</span>
@@ -278,10 +310,15 @@
             </div>
         </div>
 
-        <!-- 回到頂部按鈕 -->
         <button id="topBtn" onclick="scrollToTop()">Top</button>
 
         <script>
+            // 切換手機版漢堡選單
+            function toggleMenu() {
+                const navLinks = document.getElementById("navLinks");
+                navLinks.classList.toggle("active");
+            }
+
             const characters = [
                 {
                     name: "海綿寶寶",
