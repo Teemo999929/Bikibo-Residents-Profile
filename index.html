@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>海綿寶寶</title>
     <style>
-        /* --- 保留你原本的所有樣式 --- */
+        /* --- css --- */
         body {
             font-family: Arial, sans-serif;
             margin: 0;
@@ -23,7 +23,7 @@
             background-position: center center;
         }
 
-        /* --- 修改導覽列樣式以支援漢堡選單 --- */
+        /* --- 導覽列樣式 漢堡選單 --- */
         nav {
             position: sticky;
             top: 0;
@@ -122,7 +122,7 @@
             box-sizing: border-box;
         }
 
-        /* --- 輪播與回到頂部 (保留原文) --- */
+        /* --- 輪播與回到頂部  --- */
         .slideshow-container {
             max-width: 1000px;
             position: relative;
@@ -200,7 +200,7 @@
             margin-top: 20px;
         }
 
-        /* ======= 重點：響應式 RWD 修正 ======= */
+        /* ======= 響應式 RWD  ======= */
         @media (max-width: 768px) {
             header { height: 300px; } /* 手機版 header 縮短高度 */
 
@@ -335,13 +335,13 @@
     </footer>
 
     <script>
-        /* 新增：漢堡選單切換函式 */
+        /* 漢堡選單切換函式 */
         function toggleMenu() {
             const navLinks = document.getElementById("nav-links");
             navLinks.classList.toggle("active");
         }
 
-        /* 以下為你原本的 JS 邏輯 */
+        
         let slideIndex = 1;
         let slideTimer;
         const slideshow = document.getElementById("slideshow");
