@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>海綿寶寶 - 劇集選集</title>
+    <style>
+        body {
+            font-family: 'Arial', 'Microsoft JhengHei', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(to bottom, #cbeeff, #f9fcff);
+            min-height: 100vh;
+        }
+
+        header {
+            background-image: url("./jpg/未命名設計.jpg");
+            max-width: 100%;
+            height: 600px;
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-position: center center;
+        }
+
+        nav {
+            position: sticky;
+            top: 0;
+            background: #11b2e8;
+            padding: 10px;
+            text-align: center;
+            z-index: 100;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin: 0 15px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+
+        nav a:hover {
+            color: #ffeb3b;
+            text-decoration: none;
+            transform: scale(1.1);
+        }
+
+        main {
+            padding: 20px;
+            text-align: center;
+            min-height: 600px;
+            /* 加高一點以免選單被切到 */
+        }
+
+        main h2 {
+            color: #006699;
+            margin-bottom: 30px;
+            font-size: 2rem;
+            letter-spacing: 2px;
+        }
+
+        /* --- 影片容器樣式 --- */
+        .video-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.7);
+            padding: 20px;
+            border-radius: 20px;
+            box-shadow: 0 10px 25px rgba(17, 178, 232, 0.2);
+            backdrop-filter: blur(5px);
+            position: relative;
+            z-index: 1;
+            /* 確保影片層級比選單低 */
+        }
+
+        .video-container iframe {
+            width: 100%;
+            max-width: 100%;
+            height: auto;
+            aspect-ratio: 16/9;
+            border-radius: 10px;
+            border: none;
+        }
+
+        /* --- 選單區塊樣式 --- */
+        .control-panel {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+            position: relative;
+            /* 定位基準 */
+            z-index: 50;
+            /* 讓選單浮在最上面 */
+        }
+
+        /* 標準 Select (左邊那個) */
+        .standard-select {
+            padding: 12px 20px;
+            font-size: 16px;
+            border: 2px solid #11b2e8;
+            border-radius: 50px;
+            background-color: white;
+            color: #006699;
+            cursor: pointer;
+            outline: none;
+            min-width: 200px;
+            text-align: center;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            height: 50px;
+            /* 固定高度 */
+            box-sizing: border-box;
+        }
+
+        /* --- [關鍵修改] 自訂下拉選單 (右邊那個) --- */
+        .custom-select-wrapper {
+            position: relative;
+            user-select: none;
+            min-width: 200px;
+            height: 50px;
+        }
+
+        /* 選單按鈕 (顯示目前選擇) */
+        .custom-select-trigger {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0 20px;
+            font-size: 16px;
+            border: 2px solid #11b2e8;
+            border-radius: 50px;
+            background-color: white;
+            color: #006699;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            height: 100%;
+            /* 填滿容器 */
+            box-sizing: border-box;
+        }
+
+        .custom-select-trigger:hover {
+            background-color: #f0fbff;
+        }
+
+        /* 下拉出來的列表清單 */
+        .custom-options {
+            position: absolute;
+            top: 110%;
+            /* 在按鈕正下方 */
+            left: 0;
+            right: 0;
+            background: white;
+            border: 2px solid #11b2e8;
+            border-radius: 15px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+
+            /* 【這裡就是控制高度的關鍵！】 */
+            max-height: 300px;
+            /* 超過 300px 就會停止變長 */
+            overflow-y: auto;
+            /* 超過的部分顯示卷軸 */
+
+            display: none;
+            /* 預設隱藏 */
+            z-index: 999;
+            /* 確保浮在所有東西上面 */
+        }
+
+        /* 顯示列表時的狀態 */
+        .custom-select-wrapper.open .custom-options {
+            display: block;
+        }
+
+        /* 列表中的每一個選項 */
+        .custom-option {
+            padding: 10px 15px;
+            color: #006699;
+            cursor: pointer;
+            transition: background 0.2s;
+            border-bottom: 1px solid #eef;
+        }
+
+        .custom-option:hover {
+            background-color: #f0fbff;
+            color: #11b2e8;
+        }
+
+        /* 卷軸美化 (Chrome/Safari/Edge) */
+        .custom-options::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .custom-options::-webkit-scrollbar-thumb {
+            background-color: #11b2e8;
+            border-radius: 4px;
+        }
+
+        .custom-options::-webkit-scrollbar-track {
+            background-color: #f0fbff;
+        }
+
+        footer {
+            background: #11b2e8;
+            color: white;
+            text-align: center;
+            padding: 20px;
+            margin-top: 40px;
+        }
+
+        /* ======= RWD ======= */
+        .burger {
+            display: none;
+            font-size: 24px;
+            color: white;
+            cursor: pointer;
+            text-align: right;
+            padding-right: 20px;
+        }
+
+        @media (max-width: 768px) {
+            header {
+                height: 300px;
+            }
+
+            .burger {
+                display: block;
+            }
+
+            #navLinks {
+                display: none;
+                flex-Direction: column;
+                background: #11b2e8;
+                padding: 10px 0;
+            }
+
+            #navLinks.active {
+                display: flex;
+            }
+
+            nav a {
+                margin: 10px 0;
+                display: block;
+            }
+
+            .control-panel {
+                flex-Direction: column;
+                align-Items: center;
+            }
+
+            .standard-select,
+            .custom-select-wrapper {
+                width: 90%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header></header>
+
+    <nav>
+        <div class="burger" onclick="toggleMenu()">☰</div>
+        <div id="navLinks">
+            <a href="index.html">首頁</a>
+            <a href="角色介紹.html">角色介紹</a>
+            <a href="劇集選集.html">劇集介紹</a>
+            <a href="精彩片段.html">精彩片段</a>
+            <a href="相關梗圖.html">相關梗圖</a>
+        </div>
+    </nav>
+
+    <main>
+        <h2>劇集選集</h2>
+
+        <div id="episode-controls" class="control-panel">
+            <select id="rangeSelect" class="standard-select">
+                <option value="0" disabled selected>請選擇集數區間</option>
+                <option value="1-30">第 1 - 30 集</option>
+                <option value="31-60">第 31 - 60 集</option>
+                <option value="61-90">第 61 - 90 集</option>
+                <option value="91-120">第 91 - 120 集</option>
+            </select>
+
+            <div class="custom-select-wrapper" id="customEpisodeWrapper">
+                <div class="custom-select-trigger" id="customTrigger">
+                    請先選擇區間
+                </div>
+                <div class="custom-options" id="customOptionsList">
+                </div>
+            </div>
+        </div>
+
+        <div class="video-container" id="videoArea" style="display: none;">
+            <iframe id="mainVideo" src="" allow="autoplay; fullscreen"></iframe>
+        </div>
+    </main>
+
+    <footer>
+        <p>© 2025 SpongeBob Fan Site</p>
+    </footer>
+
+    <script>
+        // 漢堡選單
+        function toggleMenu() {
+            var x = document.getElementById("navLinks");
+            if (x.classList.contains("active")) x.classList.remove("active");
+            else x.classList.add("active");
+        }
+
+        // --- 資料庫 (請填入網址) ---
+        const episodeLinks = {
+            1: "https://drive.google.com/file/d/0B9kzP7SHVJadMGpiZENnV21PSEk/preview?resourcekey=0-6YA6K5MMwkXA9tVpQDmfvQ",
+            // (view 改成了 preview)
+            2: "https://drive.google.com/file/d/0B9kzP7SHVJadUkFQSGtzWXJrVDA/preview?resourcekey=0-kBYJBKh2iMNJM6genkoalg",
+            3: "https://drive.google.com/file/d/0B9kzP7SHVJadeTNJbm9fSUk3RGc/preview?usp=drive_link&resourcekey=0-E6w2ezPPiXU4JixbQ6U6Ow",
+            4: "https://drive.google.com/file/d/0B9kzP7SHVJadZ1ZRYjVaMHF4TWc/preview?usp=drive_link&resourcekey=0-IK6fhdbSa7-sU6MYwdp7zA",
+            5: "https://drive.google.com/file/d/0B9kzP7SHVJadMGxhczJSQnc4SHc/preview?usp=drive_link&resourcekey=0-rYow3dtlhsP2KKAur6cBlA",
+            6: "https://drive.google.com/file/d/0B9kzP7SHVJadOVo5RXJkdHpEaUk/preview?usp=drive_link&resourcekey=0-qxE8bAnzM7fwHhKTUNKG3g",
+            7: "https://drive.google.com/file/d/0B9kzP7SHVJadOF82YTFrOXlNZUE/preview?usp=drive_link&resourcekey=0-s5TA5pZQEq16lN3WLXlb_g",
+            8: "https://drive.google.com/file/d/0B9kzP7SHVJadaVNfTW5tVTdKeEU/preview?usp=drive_link&resourcekey=0-6Hmx5EFkhLLs_39lH9Tf8w",
+            9: "https://drive.google.com/file/d/0B9kzP7SHVJadUTdVcU9LVDV2cFE/preview?usp=drive_link&resourcekey=0-43vxZfF7Kfn1CPjv26MI5w",
+            10: "https://drive.google.com/file/d/0B9kzP7SHVJadRXJDUmU0bnRJQXc/preview?usp=drive_link&resourcekey=0-VcWuDXt7rskbvHHZFvJ3mw",
+
+        };
+
+        // --- 變數宣告 ---
+        const rangeSelect = document.getElementById('rangeSelect');
+        const customWrapper = document.getElementById('customEpisodeWrapper');
+        const customTrigger = document.getElementById('customTrigger');
+        const customOptionsList = document.getElementById('customOptionsList');
+        const videoArea = document.getElementById("videoArea");
+        const videoPlayer = document.getElementById("mainVideo");
+
+        // --- 1. 當「區間選單」改變時 ---
+        rangeSelect.addEventListener('change', function () {
+            const rangeValue = this.value;
+
+            // 重置右邊的選單文字
+            customTrigger.textContent = "請選擇集數";
+            customOptionsList.innerHTML = ""; // 清空舊選項
+
+            // 解析區間 (例如 "1-30")
+            const parts = rangeValue.split('-');
+            const start = parseInt(parts[0]);
+            const end = parseInt(parts[1]);
+
+            // 自動產生 DIV 選項
+            for (let i = start; i <= end; i++) {
+                const optionDiv = document.createElement("div");
+                optionDiv.className = "custom-option";
+                optionDiv.textContent = "第 " + i + " 集";
+
+                // 設定每個選項的點擊功能
+                optionDiv.onclick = function () {
+                    playVideo(i); // 播放影片
+                    customTrigger.textContent = this.textContent; // 更新按鈕文字
+                    customWrapper.classList.remove('open'); // 關閉選單
+                };
+
+                customOptionsList.appendChild(optionDiv);
+            }
+        });
+
+        // --- 2. 控制自訂選單的開關 ---
+        customTrigger.addEventListener('click', function (e) {
+            // 如果還沒選區間，不讓打開
+            if (rangeSelect.value === "0") {
+                alert("請先選擇左邊的集數區間喔！");
+                return;
+            }
+            // 切換 'open' class 來顯示/隱藏選單
+            customWrapper.classList.toggle('open');
+            e.stopPropagation(); // 防止事件冒泡
+        });
+
+        // 點擊網頁其他地方時，自動關閉選單
+        window.addEventListener('click', function (e) {
+            if (!customWrapper.contains(e.target)) {
+                customWrapper.classList.remove('open');
+            }
+        });
+
+        // --- 3. 播放功能 ---
+        function playVideo(episode) {
+            const url = episodeLinks[episode];
+            if (url) {
+                videoPlayer.src = url;
+                videoArea.style.display = "block";
+                videoArea.scrollIntoView({ behavior: "smooth", block: "center" });
+                console.log("播放第 " + episode + " 集");
+            } else {
+                alert("抱歉，第 " + episode + " 集的連結尚未上架！");
+                videoPlayer.src = "";
+                videoArea.style.display = "none";
+            }
+        }
+    </script>
+
+</body>
+
+</html>
