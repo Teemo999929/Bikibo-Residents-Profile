@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>旅遊 APP Sitemap</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            background-color: #f8fafc;
+            font-family: "Microsoft JhengHei", "PingFang TC", sans-serif;
+            padding: 40px 10px;
+        }
+        .node {
+            border: 1px solid #cbd5e1;
+            padding: 10px 15px;
+            border-radius: 6px;
+            font-size: 14px;
+            text-align: center;
+            min-width: 130px;
+            background-color: white;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            position: relative;
+            transition: all 0.2s;
+        }
+        .header-node {
+            background-color: #475569;
+            color: white;
+            font-weight: bold;
+            border: none;
+            padding: 12px 30px;
+        }
+        
+        /* 顏色區分模組 */
+        .color-member { background-color: #d1fae5; border-color: #10b981; } /* 綠色 */
+        .color-team { background-color: #fce7f3; border-color: #f472b6; }   /* 粉色 */
+        .color-trips { background-color: #e0f2fe; border-color: #38bdf8; }  /* 藍色 */
+        .color-explore { background-color: #fef9c3; border-color: #facc15; }/* 黃色 */
+        .color-accounting { background-color: #f3e8ff; border-color: #a855f7; } /* 紫色 */
+
+        .line-v {
+            width: 2px;
+            background-color: #cbd5e1;
+            height: 25px;
+            margin: 0 auto;
+        }
+        .branch-container {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            align-items: flex-start;
+            margin-top: 40px;
+            position: relative;
+        }
+        .branch-line {
+            position: absolute;
+            top: -25px;
+            left: 8%;
+            right: 8%;
+            height: 2px;
+            background-color: #cbd5e1;
+        }
+        .process-flow {
+            font-size: 12px;
+            background: rgba(255,255,255,0.6);
+            padding: 8px;
+            border-radius: 4px;
+            margin-top: 6px;
+            border-left: 3px solid #64748b;
+            text-align: left;
+        }
+        .sub-node {
+            font-size: 12px;
+            padding: 6px 10px;
+            min-width: 110px;
+            margin-bottom: 4px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 頂層：首頁 -->
+    <div class="flex flex-col items-center">
+        <div class="node header-node text-lg">首頁</div>
+        <div class="line-v" style="height: 40px;"></div>
+    </div>
+
+    <!-- 五大分支容器 -->
+    <div class="branch-container">
+        <div class="branch-line"></div>
+
+        <!-- 1. 會員登錄註冊 (綠色) -->
+        <div class="flex flex-col items-center">
+            <div class="node color-member font-bold">會員登錄註冊</div>
+            <div class="line-v"></div>
+            <div class="flex gap-2">
+                <div class="flex flex-col items-center">
+                    <div class="node sub-node">登錄</div>
+                    <div class="line-v"></div>
+                    <div class="node sub-node">個人資料</div>
+                    <div class="node sub-node">個人行事曆</div>
+                    <div class="node sub-node">願望清單</div>
+                </div>
+                <div class="flex flex-col items-center">
+                    <div class="node sub-node">註冊</div>
+                    <div class="line-v"></div>
+                    <div class="node sub-node">Email 驗證</div>
+                    <div class="node sub-node">輸入密碼</div>
+                    <div class="node sub-node">建立帳戶</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 2. 建立團隊 (粉色) -->
+        <div class="flex flex-col items-center">
+            <div class="node color-team font-bold">建立團隊</div>
+            <div class="line-v"></div>
+            <div class="flex gap-2">
+                <div class="flex flex-col items-center">
+                    <div class="node sub-node">已有出發計畫</div>
+                    <div class="line-v"></div>
+                    <div class="node sub-node">航班資訊</div>
+                    <div class="node sub-node">住宿安排</div>
+                    <div class="node sub-node">美食行程總覽</div>
+                    <div class="node sub-node">旅遊排程</div>
+                    <div class="node sub-node">探索景點</div>
+                    <div class="node sub-node">以收藏景點</div>
+                </div>
+                <div class="flex flex-col items-center">
+                    <div class="node sub-node">和朋友媒合時間</div>
+                    <div class="line-v"></div>
+                    <div class="node sub-node w-44">
+                        <span class="font-bold text-pink-700">有邀請碼</span>
+                        <div class="process-flow">加入團隊 → 確認可用時間 → 推薦方案投票 → 編輯行程</div>
+                    </div>
+                    <div class="line-v"></div>
+                    <div class="node sub-node w-44">
+                        <span class="font-bold text-pink-700">無邀請碼</span>
+                        <div class="process-flow">建立新團 → <span class="text-blue-600 font-bold">例2K8BLU</span> → 確認可用時間 → 推薦方案投票 → 編輯行程</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 3. 我的行程 (藍色) -->
+        <div class="flex flex-col items-center">
+            <div class="node color-trips font-bold">我的行程</div>
+            <div class="line-v"></div>
+            <div class="node sub-node">已開團</div>
+            <div class="line-v"></div>
+            <div class="node sub-node">媒合中</div>
+        </div>
+
+        <!-- 4. 景點探索 (黃色) -->
+        <div class="flex flex-col items-center">
+            <div class="node color-explore font-bold">景點探索</div>
+            <div class="line-v"></div>
+            <div class="node sub-node">熱門景點</div>
+            <div class="node sub-node">搜尋景點</div>
+            <div class="node sub-node">加入願望清單</div>
+            <div class="node sub-node">加入行程</div>
+        </div>
+
+        <!-- 5. 記帳分帳 (紫色) -->
+        <div class="flex flex-col items-center">
+            <div class="node color-accounting font-bold">記帳分帳</div>
+            <div class="line-v"></div>
+            <div class="node sub-node w-40 text-left">
+                <span class="font-bold">旅程分帳列表</span>
+                <div class="mt-2 space-y-1 text-[11px]">
+                    <div class="pl-2 border-l-2 border-purple-400">群組花費</div>
+                    <div class="pl-2 border-l-2 border-purple-400">
+                        個人花費
+                        <div class="text-gray-500 italic">└ 個人預算</div>
+                    </div>
+                    <div class="pl-2 border-l-2 border-purple-400">
+                        代收付款項
+                        <div class="text-gray-500 italic">└ 結清紀錄</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 底部說明 -->
+    <div class="mt-20 flex justify-center flex-wrap gap-6 border-t pt-6">
+        <div class="flex items-center gap-2"><div class="w-3 h-3 color-member rounded"></div><span class="text-xs text-gray-600">會員帳號</span></div>
+        <div class="flex items-center gap-2"><div class="w-3 h-3 color-team rounded"></div><span class="text-xs text-gray-600">團隊協作</span></div>
+        <div class="flex items-center gap-2"><div class="w-3 h-3 color-trips rounded"></div><span class="text-xs text-gray-600">行程狀態</span></div>
+        <div class="flex items-center gap-2"><div class="w-3 h-3 color-explore rounded"></div><span class="text-xs text-gray-600">景點探索</span></div>
+        <div class="flex items-center gap-2"><div class="w-3 h-3 color-accounting rounded"></div><span class="text-xs text-gray-600">費用清算</span></div>
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>海綿寶寶 - 周邊商城</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(to bottom, #cbeeff, #f9fcff);
+            min-height: 100vh;
+        }
+
+        header {
+            background-image: url("./jpg/未命名設計.jpg");
+            max-width: 100%;
+            height: 600px;
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-position: center center;
+        }
+
+        nav {
+            position: sticky;
+            top: 0;
+            background: #11b2e8;
+            padding: 10px;
+            text-align: center;
+            z-index: 100;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin: 0 15px;
+            font-weight: bold;
+        }
+
+        nav a:hover {
+            text-decoration: underline;
+        }
+
+        main {
+            padding: 20px;
+            text-align: center;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        main h2 {
+            color: #006699;
+            font-size: 2rem;
+            margin-bottom: 30px;
+        }
+
+        /* ======= 1. 商品列表排版 (Grid) ======= */
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* 自動適應欄位 */
+            gap: 25px;
+            padding: 10px;
+        }
+
+        /* ======= 2. 商品卡片樣式 ======= */
+        .product-card {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            overflow: hidden;
+            transition: transform 0.3s, box-shadow 0.3s;
+            cursor: pointer;
+            border: 2px solid transparent;
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(17, 178, 232, 0.3);
+            border-color: #11b2e8;
+        }
+
+        .product-img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-bottom: 1px solid #eee;
+        }
+
+        .product-info {
+            padding: 15px;
+            text-align: left;
+        }
+
+        .product-name {
+            font-size: 1.1rem;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .product-price {
+            color: #e91e63;
+            font-weight: bold;
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+        }
+
+        /* 加入購物車按鈕 */
+        .btn-add-cart {
+            width: 100%;
+            padding: 10px;
+            background-color: #11b2e8;
+            color: white;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background 0.3s;
+        }
+
+        .btn-add-cart:hover {
+            background-color: #0088cc;
+        }
+
+        /* ======= 3. 彈跳視窗 (Modal) ======= */
+        .modal-overlay {
+            display: none; /* 預設隱藏 */
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            backdrop-filter: blur(4px);
+        }
+
+        .modal-box {
+            background: white;
+            width: 90%;
+            max-width: 500px;
+            padding: 25px;
+            border-radius: 20px;
+            position: relative;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+            text-align: left;
+            animation: popIn 0.3s ease-out;
+        }
+
+        @keyframes popIn {
+            from { transform: scale(0.8); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            font-size: 28px;
+            cursor: pointer;
+            color: #aaa;
+        }
+
+        .close-modal:hover { color: #333; }
+
+        .modal-img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            border-radius: 10px;
+            margin-bottom: 15px;
+        }
+
+        .modal-title { font-size: 1.5rem; color: #006699; margin-bottom: 10px; font-weight: bold; }
+        .modal-desc { color: #555; line-height: 1.6; margin-bottom: 15px; }
+        .modal-stock { color: #28a745; font-weight: bold; margin-bottom: 20px; }
+
+        /* ======= RWD ======= */
+        .burger {
+            display: none;
+            font-size: 24px;
+            color: white;
+            cursor: pointer;
+            text-align: right;
+            padding-right: 20px;
+        }
+
+        @media (max-width: 768px) {
+            header { height: 300px; }
+            .burger { display: block; }
+            #navLinks {
+                display: none;
+                flex-direction: column;
+                background: #11b2e8;
+                padding: 10px 0;
+            }
+            #navLinks.active { display: flex; }
+            nav a { margin: 10px 0; display: block; }
+        }
+        footer {
+            background: #11b2e8;
+            color: white;
+            text-align: center;
+            padding: 10px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <header></header>
+
+    <nav>
+        <div class="burger" onclick="toggleMenu()">☰</div>
+        <div id="navLinks">
+            <a href="index.html">首頁</a>
+            <a href="角色介紹.html">角色介紹</a>
+            <a href="劇集選集.html">劇集選集</a>
+            <a href="熱銷周邊.html">熱銷周邊</a>
+            <a href="相關梗圖.html">相關梗圖</a>
+        </div>
+    </nav>
+
+    <main>
+        <h2>🦀 蟹堡王熱銷周邊 🦀</h2>
+        
+        <div class="products-grid" id="productsContainer">
+            </div>
+    </main>
+
+    <div class="modal-overlay" id="productModal">
+        <div class="modal-box">
+            <span class="close-modal" onclick="closeModal()">&times;</span>
+            <img src="" class="modal-img" id="m-img">
+            <div class="modal-title" id="m-title"></div>
+            <div class="product-price" id="m-price"></div>
+            <div class="modal-desc" id="m-desc"></div>
+            <div class="modal-stock" id="m-stock"></div>
+            <button class="btn-add-cart" onclick="addToCart()">🛒 加入購物車</button>
+        </div>
+    </div>
+
+    <footer>
+        <p>© 2025 SpongeBob Fan Site</p>
+    </footer>
+
+    <script>
+        // 漢堡選單功能
+        function toggleMenu() {
+            var x = document.getElementById("navLinks");
+            if (x.classList.contains("active")) {
+                x.classList.remove("active");
+            } else {
+                x.classList.add("active");
+            }
+        }
+
+        // --- 1. 商品資料庫 (可以在這裡修改商品) ---
+        const products = [
+            {
+                name: "海綿寶寶立體造型悠遊卡",
+                price: 720,
+                img: "./jpg/海綿寶寶立體造型悠遊卡.jpg", 
+                desc: "100%還原卡通造型，超級柔軟的材質，鼻子還可以拉長喔！",
+                stock: 12
+            },
+            {
+                name: "派大星呆萌抱枕",
+                price: 490,
+                img: "./jpg/派大星呆萌抱枕.jpg",
+                desc: "適合放在沙發上當靠墊，每天看著它心情就會變好。",
+                stock: 8
+            },
+            {
+                name: "蟹堡王員工帽",
+                price: 299,
+                img: "./jpg/123.jpg",
+                desc: "戴上它，你就是蟹堡王的優良員工！(不包含鏟子)",
+                stock: 50
+            },
+            {
+                name: "章魚哥藝術畫作",
+                price: 9999,
+                img: "./jpg/章魚哥藝術畫作.jpg",
+                desc: "這可是真正的藝術！只有懂藝術的人才配擁有。",
+                stock: 1
+            },
+            {
+                name: "小蝸飼料碗",
+                price: 150,
+                img: "./jpg/小蝸飼料碗.jpg",
+                desc: "堅固耐用，底部有防滑設計，別忘了餵小蝸！",
+                stock: 20
+            },
+            {
+                name: "皮老闆秘密筆記",
+                price: 99,
+                img: "./jpg/皮老闆.jpg",
+                desc: "裡面是空白的，因為他從來沒偷到過配方...",
+                stock: 100
+            },
+            {
+                name: "海綿寶寶 蟑螂 4.8吋 搪膠公仔",
+                price: 1020,
+                img: "./jpg/海綿寶寶 蟑螂 4.8吋 搪膠公仔.jpg",
+                desc: "海綿寶寶迷因人物系列「海蟑螂 - 吃蟹堡款」，知名美國玩具廠牌Yourooz 正版授權認證推出!",
+                stock: 5
+            },
+            {
+                name: "比奇堡的居民們",
+                price: 720,
+                img: "./jpg/比奇堡的居民們.png",
+                desc: "我看過牠！就是海綿寶寶裡的那隻魚！泡泡瑪特聯名海綿寶寶推出「比奇堡居民盲盒」",
+                stock: 10
+            }
+            
+        ];
+
+        // --- 2. 自動產生商品卡片 ---
+        const container = document.getElementById('productsContainer');
+        
+        products.forEach(product => {
+            const card = document.createElement('div');
+            card.className = 'product-card';
+            
+            // 點擊卡片開啟彈窗
+            card.onclick = () => openModal(product);
+
+            card.innerHTML = `
+                <img src="${product.img}" alt="${product.name}" class="product-img">
+                <div class="product-info">
+                    <div class="product-name">${product.name}</div>
+                    <div class="product-price">NT$ ${product.price}</div>
+                    <button class="btn-add-cart" onclick="event.stopPropagation(); alert('已加入 ${product.name} 到購物車！')">
+                        加入購物車
+                    </button>
+                </div>
+            `;
+            container.appendChild(card);
+        });
+
+        // --- 3. 彈跳視窗功能 ---
+        const modal = document.getElementById('productModal');
+        const mImg = document.getElementById('m-img');
+        const mTitle = document.getElementById('m-title');
+        const mPrice = document.getElementById('m-price');
+        const mDesc = document.getElementById('m-desc');
+        const mStock = document.getElementById('m-stock');
+        
+        let currentProduct = null;
+
+        function openModal(product) {
+            currentProduct = product;
+            mImg.src = product.img;
+            mTitle.textContent = product.name;
+            mPrice.textContent = `NT$ ${product.price}`;
+            mDesc.textContent = product.desc;
+            mStock.textContent = `剩餘數量：${product.stock} 件`;
+            
+            modal.style.display = 'flex'; // 顯示彈窗
+        }
+
+        function closeModal() {
+            modal.style.display = 'none';
+        }
+
+        function addToCart() {
+            if (currentProduct) {
+                alert(`成功將「${currentProduct.name}」加入購物車！`);
+                closeModal();
+            }
+        }
+
+        // 點擊彈窗外部關閉
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                closeModal();
+            }
+        }
+    </script>
+</body>
+</html>
